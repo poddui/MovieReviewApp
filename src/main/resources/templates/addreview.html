@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Review</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Add Movie Review</h1>
+	<div>
+		<form th:object="${review}" th:action="@{/save}" method="post">
+
+		  	<label for="name">Movie name</label>
+			<input type="text" id="name" th:field="*{name}" />
+			<div style="clear: both; display: block; height: 10px;"></div>
+		  	<label for="year">Release year</label>
+			<input type="number" id="year" th:field="*{release_year}" />
+			<div style="clear: both; display: block; height: 10px;"></div>
+		  	<label for="director">Director</label>
+			<input type="text" th:field="*{director}" />
+			<div style="clear: both; display: block; height: 10px;"></div>
+			
+			<label for="category">Category</label>
+				<select id="category" th:field="*{category}">
+					<option th:each="category : ${categories}" th:value="${category.category_id}" th:text="${category.name}"></option>
+				</select>
+			<div style="clear: both; display: block; height: 10px;"></div>
+			
+			<label for="rating">Rating</label>
+			<select id="rating" th:field="*{rating}">
+			    <option th:each="i : ${#numbers.sequence(10,1,-1)}" th:value="${i}" th:text="${i}"></option>
+			</select>
+			<div style="clear: both; display: block; height: 10px;"></div>
+			
+			<label for="review">Review</label>
+			<textarea id="review" th:field="*{user_review}" rows="4" style="resize: vertical;"></textarea>
+			<div style="clear: both; display: block; height: 10px;"></div>
+			
+			<h3 id="h3">Adding review as: <span sec:authentication="name"></span></h3>
+			<input type="submit" class="btn btn-success" value="Save"></input>
+			<input type="reset" value="Reset" class="btn btn-warning" />
+			<a href="/reviewlist" class="btn btn-primary"> Back to Reviews</a>
+		</form>
+	</div>
+</body>
+</html>
