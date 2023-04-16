@@ -52,7 +52,7 @@ public class Category {
 
 	@Override
 	public String toString() {
-		return "Category [category_id=" + category_id + ", name=" + name + ", movies=" + movies + "]";
+		return "Category [category_id=" + category_id + ", name=" + name + "]";
 	}
 
 

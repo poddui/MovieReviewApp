@@ -1,11 +1,49 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
 <head>
-    <title>Server Programming with Spring Boot</title>
+    <title>Rating list</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+     <link type="text/css" rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <h1>Bookstore index page</h1>
+<div class="container">
+	<div class="col-md-4">
+		<h1>Manage Ratings</h1>
+	</div>
+	<div class="col-md-4">
+		<h3>Logged in as: <span id="loginName" sec:authentication="name"></span></h3>
+	</div>
+	<div class="col-md-4" style="padding:20px 0">
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger"/>
+		</form>
+	</div>  
+       <table class="table table-striped">
+               <tr>
+	               <th><b>Movie name</b></th>
+	               <th><b>Release Year</b></th>
+	               <th><b>Director</b></th>
+	               <th><b>Category</b></th>
+	               <th><b>Rating by</b></th>
+	               <th><b>Rating</b></th>
+	               <th><b>Delete</b></th>
+	               <th><b>Edit</b></th>
+              </tr>
+               <tr th:each = "review : ${reviews}">
+	               <td th:text= "${review.name}"></td>
+	               <td th:text= "${review.release_year}"></td>
+	               <td th:text= "${review.director}"></td>
+	               <td th:text= "${review.category.name}"></td>
+	               <td th:text= "${review.user.username}"></td>
+	               <td th:text= "${review.rating} + ' / 10'"></td>
+ 					<td th:if="${review.user.username == user || isAdmin}"><a th:href="@{/delete/{id}(id=${review.id})}" class="btn btn-xs btn-danger">Delete</a></td>
+ 					<td th:unless="${review.user.username == user || isAdmin}"></td>
+ 					<td th:if="${review.user.username == user || isAdmin}"><a th:href="@{/edit/{id}(id=${review.id})}" class="btn btn-xs btn-primary">Edit</a></td>
+ 					<td th:unless="${review.user.username == user || isAdmin}"></td>
+				</tr>
+       </table>
+       <a href="/addreview" class="btn btn-success">Add Review</a>
+</div>
 </body>
 </html>
- 

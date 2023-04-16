@@ -1,6 +1,5 @@
 package hh.backend.MovieRatingApp;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +10,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import hh.backend.MovieRatingApp.webcontroller.*;
@@ -25,10 +21,10 @@ public class SpringSecurityConfig  {
 	
 	@Autowired
 	private UserDetailService userDetailsService;
+	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-	auth.userDetailsService(userDetailsService).passwordEncoder(new
-	BCryptPasswordEncoder());
+	auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
 	}
 	
     @Bean
@@ -36,11 +32,14 @@ public class SpringSecurityConfig  {
         http
         .authorizeHttpRequests()
         	.requestMatchers("/css/**").permitAll() 
-        	.requestMatchers("/jsonmovies/**").permitAll() 
+        	.requestMatchers("/jsonmovies/**").permitAll()
+        	.requestMatchers("/signup", "/saveuser").permitAll()
+        	.requestMatchers("/users").permitAll()
         	.anyRequest().authenticated()
         	.and()
       .formLogin()
-          .defaultSuccessUrl("/reviewlist", true)
+      		.loginPage("/login")
+          .defaultSuccessUrl("/", true)
           .permitAll()
           .and()
       .logout()
